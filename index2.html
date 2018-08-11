@@ -5,7 +5,7 @@
   <title>Make NY Blue</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel='stylesheet' href='css/index.css' />
+  <link rel='stylesheet' href='index.css' />
   <script
     src="https://code.jquery.com/jquery-3.3.1.js"
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -16,31 +16,152 @@
 <div class='container'>
   <img src='images/logo.png' />
   <div class='page-header'>
-    <h1>Vote on September 13th</h1>
   </div>
+
+  <h5>Is my NY State Senator an IDC (FAKE) Democrat?</h5>
   <form id='address'>
     <div class='form-group'>
-      <label for='addr1'>Street Address</label>
-      <input type='text' class='form-control' id='addr1'>
-    </div>
-    <div class='form-group'>
-      <label for='city'>City</label>
-      <input type='text' class='form-control' id='city'>
-    </div>
-    <div class='form-group'>
-      <label for='zip5'>Zip Code</label>
-      <input type='text' class='form-control' id='zip5'>
+      <label for='addr'>Address</label>
+      <input type='text' class='form-control' id='addr'>
     </div>
     <input type='submit' class='btn btn-primary' value='Go' />
   </form>
-  <iframe id='iframe' src=''></iframe>
+
+  <div id='yesIDC' style='display: none;'>
+    <p>YES. Can you believe it? Your state senator <span class='text-danger' id='yesIDCSenator'></span> (district <span id='yesIDCDistrict'></span>) is a corrupt FAKE DEMOCRAT who caucuses with the REPUBLICANS, giving them control of the State Senate.</p>
+
+    <p>Vote them out on SEPTEMBER 13 by voting for <strong><a target='_blank' id='yesIDCChallenger'></a></strong>!</p>
+  </div>
+  <div id='noIDC' style='display: none;'>
+    <p>Your state senator is <span class='text-info' id='noIDCSenator'></span> (district <span id='noIDCDistrict'></span>). They are not in the IDC, but you should still vote on SEPTEMBER 13th.</p>
+  </div>
+
+  <div id='moreInfo' style='display: none;'>
+    For more info, check out these links:
+    <ul>
+      <li><a href='http://www.noidcny.org/learn/idc-101'>Learn more about the IDC</a></li>
+      <li><a href='https://voterlookup.elections.ny.gov/VoterSearch.aspx'>Check your voter registration status</a></li>
+      <li><a href='https://nyc.pollsitelocator.com/search'>Find your polling place</a></li>
+    </ul>
+  </div>
+
+  <!-- check voter registration, etc. -->
 </div>
 <script type='text/javascript'>
+  var KEY = 'AIzaSyBGQ1D3OeADQSzDSgqlE4VGQ7QKD3GFMsQ';
+  // 17 = Simcha Felder?
+  // julia salazar?
+  var challengers = {
+    11: {
+      name: 'John Liu',
+      url: 'https://www.johnliunewyork.com/'
+    },
+    13: {
+      name: 'Jessica Ramos',
+      url: 'https://www.ramosforstatesenate.com/'
+    },
+    20: {
+      name: 'Zellnor Myrie',
+      url: 'http://z4ny.com/'
+    },
+    23: {
+      name: 'Jasmine Robinson',
+      url: 'https://www.votejasirobinson.com/'
+    },
+    31: {
+      name: 'Robert Jackson',
+      url: 'http://www.voterobertjackson.com/'
+    },
+    34: {
+      name: 'Alessandra Biaggi',
+      url: 'https://www.biaggi4ny.com/'
+    },
+    38: {
+      name: 'Julie Goldberg',
+      url: 'https://juliefornysenate.com/'
+    },
+    53: {
+      name: 'Rachel May',
+      url: 'http://rachelmay.org/'
+    }
+  };
+
+  function showDistrict(district, senator) {
+    console.log(district, senator);
+    var challenger = challengers[parseInt(district)];
+    var isIDC = !!challenger;
+    var antiPrefix = isIDC ? '#noIDC' : '#yesIDC';
+    var $antiWrapper = $(antiPrefix);
+    var prefix = isIDC ? '#yesIDC' : '#noIDC';
+    var $wrapper = $(prefix);
+    var $district = $(prefix + 'District');
+    var $senator = $(prefix + 'Senator');
+    $wrapper.css('display', 'block');
+    $antiWrapper.css('display', 'none');
+    $('#moreInfo').css('display', 'block');
+
+    $district.text(district);
+    $senator.text(senator);
+    if (isIDC) {
+      $challenger = $(prefix + 'Challenger');
+      console.log($challenger, challenger.name)
+      $challenger.attr('href', challenger.url);
+      $challenger.text(challenger.name);
+    }
+  };
+
+  function showError(error) {
+    alert(error);
+  };
+
+  function getDistrict(latLng) {
+    var url = 'https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20DISTRICT%2C%20REP_NAME%2C%20REP_URL%2C%20POPULATION%20%20%20FROM%201KfhMo_HSAp3kq5Yayca22HrIhEjJLa_c_s6jd2Q%20%20WHERE%20geometry%20not%20equal%20to%20%27%27%20AND%20ST_INTERSECTS(geometry%2C%20CIRCLE(LATLNG('+latLng.lat+'%2C%20'+latLng.lng+')%2C1))&key=AIzaSyAr9svn9vdE60i2RQ6aPs7M-Bzr1qcjqDE';
+    $.ajax({
+      url: url,
+      success: function(data) {
+        try {
+          var result = data.rows[0];
+          var district = result[0];
+          var senator = result[1];
+        }
+        catch (err) {
+          showError('No results found.')
+        }
+        showDistrict(result[0], result[1]);
+      },
+      error: function(err) {
+        console.log('err', err);
+      }
+    });
+  }
+
   $("#address").submit(function(event) {
     event.preventDefault();
-    var url = 'https://www.nysenate.gov/find-my-senator?search=true&addr1='+$('#addr1').val()+'&city='+$('#city').val()+'&zip5='+$('#zip5').val();
-    console.log(url)
-    $('#iframe').attr('src', url);
+    // for testing to avoid hitting the API unnecessarily
+    // if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
+    // else return showDistrict('20', 'Jesse Hamilton');
+
+    $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+      data: {
+        key: KEY,
+        address: $('#addr').val()
+      },
+      success: function(data) {
+        try {
+          var result = data.results[0];
+          var formattedAddr = result.formatted_address;
+          var latLng = result.geometry.location;
+        }
+        catch (err) {
+          console.log('error!', err);
+        }
+        getDistrict(latLng);
+      },
+      error: function(err) {
+        console.log('error!', err);
+      }
+    });
   });
 </script>
 </body>
