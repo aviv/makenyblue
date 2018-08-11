@@ -33,18 +33,15 @@
     </div>
     <input type='submit' class='btn btn-primary' value='Go' />
   </form>
+  <iframe id='iframe' src=''></iframe>
 </div>
 <script type='text/javascript'>
   $("#address").submit(function(event) {
     event.preventDefault();
     var url = 'https://www.nysenate.gov/find-my-senator?search=true&addr1='+$('#addr1').val()+'&city='+$('#city').val()+'&zip5='+$('#zip5').val();
-    $.ajax({
-      url: url,
-      headers: {'Access-Control-Allow-Headers': 'x-requested-with'}},
-      function(data) {
-        console.log(111, data)
-      });
-    });
+    console.log(url)
+    $('#iframe').attr('src', url);
+  });
 </script>
 </body>
 </html>
