@@ -37,7 +37,6 @@ var challengers = {
 };
 
 function showDistrict(district, senator) {
-  console.log(district, senator);
   var challenger = challengers[parseInt(district)];
   var isIDC = !!challenger;
   var antiPrefix = isIDC ? '#noIDC' : '#yesIDC';
@@ -54,7 +53,6 @@ function showDistrict(district, senator) {
   $senator.text(senator);
   if (isIDC) {
     $challenger = $(prefix + 'Challenger');
-    console.log($challenger, challenger.name)
     $challenger.attr('href', challenger.url);
     $challenger.text(challenger.name);
   }
