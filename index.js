@@ -45,6 +45,14 @@ function showDistrict(district, senator) {
   var $wrapper = $(prefix);
   var $district = $(prefix + 'District');
   var $senator = $(prefix + 'Senator');
+  $('html, body').animate(
+    {
+      scrollTop: $('#answers').offset().top - 10,
+      easing: "easeout"
+    },
+    600
+  );
+
   $wrapper.css('display', 'block');
   $antiWrapper.css('display', 'none');
   $('#moreInfo').css('display', 'block');
