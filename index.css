@@ -39,10 +39,10 @@ body {
 .page-header h1 {
   text-transform: uppercase;
   font-weight: 800;
-  font-size: 5.9rem;
+  font-size: 91px;
 }
 .page-header h2 {
-  font-size: 3.2rem;
+  font-size: 51px;
 }
 
 form#address {
