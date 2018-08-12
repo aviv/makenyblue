@@ -66,6 +66,7 @@ form#address label {
   font-size: 1.5rem;
   text-transform: uppercase;
   height: 4rem;
+  padding: 0 30px;
 }
 
 .btn-default:focus,
