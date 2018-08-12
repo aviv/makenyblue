@@ -36,6 +36,16 @@ var challengers = {
   }
 };
 
+function loading() {
+  $('#loading').css('display', 'inline-block');
+  $('#search').css('display', 'none');
+};
+
+function loaded() {
+  $('#loading').css('display', 'none');
+  $('#search').css('display', 'inline');
+};
+
 function showDistrict(district, senator) {
   var challenger = challengers[parseInt(district)];
   var isIDC = !!challenger;
@@ -56,6 +66,7 @@ function showDistrict(district, senator) {
   $wrapper.css('display', 'block');
   $antiWrapper.css('display', 'none');
   $('#moreInfo').css('display', 'block');
+  $('#nextSteps').css('display', 'block');
 
   $district.text(district);
   $senator.text(senator);
@@ -64,6 +75,11 @@ function showDistrict(district, senator) {
     $challenger.attr('href', challenger.url);
     $challenger.text(challenger.name);
   }
+
+  $('#moreDistricts').attr(
+    'href',
+    'http://www.elections.ny.gov/district-map/district-map.html#/?address='+encodeURI($('#addr').val())
+  )
 };
 
 function showError(error) {
@@ -82,11 +98,14 @@ function getDistrict(latLng) {
       }
       catch (err) {
         showError('No results found.')
+        loaded();
       }
       showDistrict(result[0], result[1]);
+      loaded();
     },
     error: function(err) {
       console.log('err', err);
+      loaded();
     }
   });
 }
@@ -97,6 +116,7 @@ $("#address").submit(function(event) {
   // if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
   // else return showDistrict('20', 'Jesse Hamilton');
 
+  loading();
   $.ajax({
     url: 'https://maps.googleapis.com/maps/api/geocode/json',
     data: {
@@ -111,11 +131,13 @@ $("#address").submit(function(event) {
       }
       catch (err) {
         console.log('error!', err);
+        loaded();
       }
       getDistrict(latLng);
     },
     error: function(err) {
       console.log('error!', err);
+      loaded();
     }
   });
 });

@@ -68,7 +68,7 @@ form#address label {
   font-size: 1.5rem;
   text-transform: uppercase;
   height: 4rem;
-  padding: 0 30px;
+  width: 140px;
 }
 
 .btn-default:focus,
@@ -93,13 +93,20 @@ a:hover {
   color: #327FAC!important;
 }
 
-#moreInfo {
+#moreInfo, #nextSteps {
   margin-top: 20px;
 }
-#moreInfo h5 {
-  font-family: 'Oswald', sans-serif;
+#nextSteps {
+  font-size: 24px;
+  color: #4FA1D1;
+}
+#nextSteps h3 {
+  /*font-family: 'Oswald', sans-serif;*/
   color: #4FA1D1;
   text-transform: uppercase;
+}
+#nextSteps a {
+  color: #4FA1D1;
 }
 
 .text-danger {
