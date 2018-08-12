@@ -86,8 +86,8 @@ function getDistrict(latLng) {
 $("#address").submit(function(event) {
   event.preventDefault();
   // for testing to avoid hitting the API unnecessarily
-  if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
-  else return showDistrict('20', 'Jesse Hamilton');
+  // if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
+  // else return showDistrict('20', 'Jesse Hamilton');
 
   $.ajax({
     url: 'https://maps.googleapis.com/maps/api/geocode/json',
