@@ -1,15 +1,145 @@
-.logo {
-  padding: 20px 0;
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-/*.btn-primary {
-  background: #81CDF7;
-  border: #81CDF7;
-  color: #000;
+.header-wrapper {
+  border-top: 2px solid rgba(79,161,209, 1);
+  box-shadow: 0px 1px 3px 0px rgba(79,161,209, 0.5);
 }
-.btn-primary:hover {
-  background: #81CDF7;
-  border: #81CDF7;
-  color: #000;
+
+.header, .content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px;
 }
-*/
+
+.header {
+  text-align: center;
+}
+
+.content {
+  padding: 0 20px;
+  max-width: 850px;
+  font-size: 1.2rem;
+}
+
+.page-header {
+  padding: 40px 0 20px 0;
+  margin-bottom: 40px;
+  color: #4FA1D1;
+  font-family: 'Oswald', sans-serif;
+  border-bottom: 1px solid rgba(206,212,218, 0.5);
+}
+.page-header h1 {
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 5.9rem;
+}
+.page-header h2 {
+  font-size: 3.2rem;
+}
+
+@media (max-width: 520px) {
+  .page-header h1 {
+    font-size: 2.6rem;
+  }
+  .page-header h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (min-width: 521px) and (max-width: 768px) {
+  .page-header h1 {
+    font-size: 3.2rem;
+  }
+  .page-header h2 {
+    font-size: 1.9rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .page-header h1 {
+    font-size: 5rem;
+  }
+  .page-header h2 {
+    font-size: 2.7rem;
+  }
+}
+
+form#address {
+  margin: 30px 0;
+}
+form#address label {
+  font-size: 1.5rem;
+  margin: 0;
+}
+#addr {
+  height: 4rem;
+  font-size: 1.5rem;
+  margin: 20px 0;
+}
+
+.logo {
+  opacity: 1;
+}
+
+.btn-default {
+  background: #4FA1D1;
+  border: #4FA1D1;
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  height: 4rem;
+}
+
+.btn-default:focus,
+.btn-default:active,
+.btn-default:hover {
+  background: #327FAC;
+  border: #327FAC;
+}
+
+#yesIDCChallenger {
+  color: #4FA1D1;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+a {
+  color: #212529;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #327FAC!important;
+}
+
+#moreInfo {
+  margin-top: 20px;
+}
+#moreInfo h5 {
+  font-family: 'Oswald', sans-serif;
+  color: #4FA1D1;
+  text-transform: uppercase;
+}
+
+.text-danger {
+  font-weight: 600;
+}
+
+.answer {
+  margin-top: 20px;
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.bg-danger {
+  background: #F2DEDE!important;
+  padding: 30px;
+}
+
+.bg-info {
+  background: #FCF8E4!important;
+  padding: 30px;
+}
