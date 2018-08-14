@@ -1,6 +1,4 @@
 var KEY = 'AIzaSyBGQ1D3OeADQSzDSgqlE4VGQ7QKD3GFMsQ';
-// 17 = simcha elder vs. blake morris
-// 18 = dilan vs. julia salazar?
 var challengers = {
   11: {
     name: 'John Liu',
@@ -10,6 +8,8 @@ var challengers = {
     name: 'Jessica Ramos',
     url: 'https://www.ramosforstatesenate.com/'
   },
+  // 17 = simcha felder vs. blake morris
+  18: 'salazar',
   20: {
     name: 'Zellnor Myrie',
     url: 'http://z4ny.com/'
@@ -46,15 +46,41 @@ function loaded() {
   $('#search').css('display', 'inline');
 };
 
+function hideAll() {
+  $('#noIDC').css('display', 'none');
+  $('#yesIDC').css('display', 'none');
+  $('#salazar').css('display', 'none');
+}
+
 function showDistrict(district, senator) {
   var challenger = challengers[parseInt(district)];
-  var isIDC = !!challenger;
-  var antiPrefix = isIDC ? '#noIDC' : '#yesIDC';
-  var $antiWrapper = $(antiPrefix);
-  var prefix = isIDC ? '#yesIDC' : '#noIDC';
-  var $wrapper = $(prefix);
-  var $district = $(prefix + 'District');
-  var $senator = $(prefix + 'Senator');
+  hideAll();
+  // it's a non-IDC "custom" district
+  if (typeof(challenger) === 'string') {
+    $('#'+challenger).css('display', 'block');
+  } else {
+    var isIDC = !!challenger;
+    var antiPrefix = isIDC ? '#noIDC' : '#yesIDC';
+    var $antiWrapper = $(antiPrefix);
+    var prefix = isIDC ? '#yesIDC' : '#noIDC';
+    var $wrapper = $(prefix);
+    var $district = $(prefix + 'District');
+    var $senator = $(prefix + 'Senator');
+
+    $wrapper.css('display', 'block');
+
+    $district.text(district);
+    $senator.text(senator);
+    if (isIDC) {
+      $challenger = $(prefix + 'Challenger');
+      $challenger.attr('href', challenger.url);
+      $challenger.text(challenger.name);
+    }
+  }
+
+  // happens regardless of which district
+  $('#moreInfo').css('display', 'block');
+  $('#nextSteps').css('display', 'block');
   $('html, body').animate(
     {
       scrollTop: $('#answers').offset().top - 10,
@@ -62,20 +88,6 @@ function showDistrict(district, senator) {
     },
     600
   );
-
-  $wrapper.css('display', 'block');
-  $antiWrapper.css('display', 'none');
-  $('#moreInfo').css('display', 'block');
-  $('#nextSteps').css('display', 'block');
-
-  $district.text(district);
-  $senator.text(senator);
-  if (isIDC) {
-    $challenger = $(prefix + 'Challenger');
-    $challenger.attr('href', challenger.url);
-    $challenger.text(challenger.name);
-  }
-
   $('#moreDistricts').attr(
     'href',
     'http://www.elections.ny.gov/district-map/district-map.html#/?address='+encodeURI($('#addr').val())

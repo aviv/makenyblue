@@ -78,7 +78,7 @@ form#address label {
   border: #327FAC;
 }
 
-#yesIDCChallenger {
+#yesIDCChallenger, .vote-yes {
   color: #4FA1D1;
   font-weight: 800;
   text-decoration: underline;
