@@ -66,6 +66,7 @@ function showDistrict(district, senator) {
     var $wrapper = $(prefix);
     var $district = $(prefix + 'District');
     var $senator = $(prefix + 'Senator');
+    var $headshot = $(prefix + 'Headshot');
 
     $wrapper.css('display', 'block');
 
@@ -75,6 +76,7 @@ function showDistrict(district, senator) {
       $challenger = $(prefix + 'Challenger');
       $challenger.attr('href', challenger.url);
       $challenger.text(challenger.name);
+      $headshot.attr('src', 'images/challengers/zellnor-myrie.jpg')
     }
   }
 
