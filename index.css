@@ -156,6 +156,21 @@ a:hover {
   }
 }
 
+@media (max-width: 375px) {
+  .page-header h1 {
+    font-size: 2.0rem;
+  }
+  .page-header h2 {
+    font-size: 1.5rem;
+  }
+  .page-header h2 span {
+    display: block;
+  }
+  form#address label {
+    font-size: 1.0rem;
+  }
+}
+
 i {
   width: 24px;
 }

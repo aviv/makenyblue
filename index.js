@@ -122,34 +122,36 @@ function getDistrict(latLng) {
   });
 }
 
-$("#address").submit(function(event) {
-  event.preventDefault();
-  // for testing to avoid hitting the API unnecessarily
-  // if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
-  // else return showDistrict('20', 'Jesse Hamilton');
+$(function() {
+  $("#address").submit(function(event) {
+    event.preventDefault();
+    // for testing to avoid hitting the API unnecessarily
+    // if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
+    // else return showDistrict('20', 'Jesse Hamilton');
 
-  loading();
-  $.ajax({
-    url: 'https://maps.googleapis.com/maps/api/geocode/json',
-    data: {
-      key: KEY,
-      address: $('#addr').val()
-    },
-    success: function(data) {
-      try {
-        var result = data.results[0];
-        var formattedAddr = result.formatted_address;
-        var latLng = result.geometry.location;
-      }
-      catch (err) {
+    loading();
+    $.ajax({
+      url: 'https://maps.googleapis.com/maps/api/geocode/json',
+      data: {
+        key: KEY,
+        address: $('#addr').val()
+      },
+      success: function(data) {
+        try {
+          var result = data.results[0];
+          var formattedAddr = result.formatted_address;
+          var latLng = result.geometry.location;
+        }
+        catch (err) {
+          console.log('error!', err);
+          loaded();
+        }
+        getDistrict(latLng);
+      },
+      error: function(err) {
         console.log('error!', err);
         loaded();
       }
-      getDistrict(latLng);
-    },
-    error: function(err) {
-      console.log('error!', err);
-      loaded();
-    }
+    });
   });
 });
