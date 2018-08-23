@@ -50,6 +50,7 @@ function hideAll() {
   $('#noIDC').css('display', 'none');
   $('#yesIDC').css('display', 'none');
   $('#salazar').css('display', 'none');
+  $('#morris').css('display', 'none');
 }
 
 function showDistrict(district, senator) {
