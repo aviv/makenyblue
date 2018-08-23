@@ -8,8 +8,8 @@ var challengers = {
     name: 'Jessica Ramos',
     url: 'https://www.ramosforstatesenate.com/'
   },
-  // 17 = simcha felder vs. blake morris
   18: 'salazar',
+  17: 'morris',
   20: {
     name: 'Zellnor Myrie',
     url: 'http://z4ny.com/'
@@ -127,7 +127,7 @@ $(function() {
     event.preventDefault();
     // for testing to avoid hitting the API unnecessarily
     // if ($('#addr').val() === 'no') return showDistrict('25', 'Velmanette Montgomery');
-    // else return showDistrict('20', 'Jesse Hamilton');
+    // else return showDistrict('17', 'Simcha Felder');
 
     loading();
     $.ajax({
