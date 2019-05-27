@@ -107,13 +107,13 @@ function getDistrict(latLng) {
       var district;
       try {
         district = data.features.filter(f => f.properties.type === 'NyStateSenateDistrict')[0].properties.label;
+        showDistrict(district);
+        loaded();
       }
       catch (err) {
         showError('No results found.')
         loaded();
       }
-      showDistrict(district);
-      loaded();
     },
     error: function(err) {
       console.log('err', err);
