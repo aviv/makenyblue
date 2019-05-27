@@ -71,7 +71,7 @@ function showDistrict(district, senator) {
     $wrapper.css('display', 'block');
 
     $district.text(district);
-    $senator.text(senator);
+    $senator.text(senator || '{INSERT YOUR SENATOR HERE}');
     if (isIDC) {
       $challenger = $(prefix + 'Challenger');
       $challenger.attr('href', challenger.url);
@@ -100,20 +100,19 @@ function showError(error) {
 };
 
 function getDistrict(latLng) {
-  var url = 'https://www.googleapis.com/fusiontables/v1/query?sql=SELECT%20DISTRICT%2C%20REP_NAME%2C%20REP_URL%2C%20POPULATION%20%20%20FROM%201KfhMo_HSAp3kq5Yayca22HrIhEjJLa_c_s6jd2Q%20%20WHERE%20geometry%20not%20equal%20to%20%27%27%20AND%20ST_INTERSECTS(geometry%2C%20CIRCLE(LATLNG('+latLng.lat+'%2C%20'+latLng.lng+')%2C1))&key=AIzaSyAr9svn9vdE60i2RQ6aPs7M-Bzr1qcjqDE';
+  var url = 'http://cunycur.cartodb.com/api/v2/sql/?q=select%20coundist%3A%3Atext%20as%20label%2C%20%27CityCouncilDistrict%27%20as%20type%2C%20ST_Simplify%28the_geom%2C%200.00025%29%20as%20the_geom%20from%20ref_nycouncil13b%20where%20ST_Intersects%28%20the_geom%2C%20ST_SetSRID%28%27POINT%28' + latLng.lng + '%20'+ latLng.lat +'%29%27%3A%3Ageometry%20%2C%204326%29%20%29%20UNION%20select%20sdtext%20as%20label%2C%20%27NyStateSenateDistrict%27%20as%20type%2C%20ST_Simplify%28the_geom%2C%200.00048%29%20as%20the_geom%20from%20latfor_sen_march2012_forcarto%20where%20ST_Intersects%28%20the_geom%2C%20ST_SetSRID%28%27POINT%28' + latLng.lng + '%20'+ latLng.lat +'%29%27%3A%3Ageometry%20%2C%204326%29%20%29&format=geojson&_=1558925147510';
   $.ajax({
     url: url,
     success: function(data) {
+      var district;
       try {
-        var result = data.rows[0];
-        var district = result[0];
-        var senator = result[1];
+        district = data.features.filter(f => f.properties.type === 'NyStateSenateDistrict')[0].properties.label;
       }
       catch (err) {
         showError('No results found.')
         loaded();
       }
-      showDistrict(result[0], result[1]);
+      showDistrict(district);
       loaded();
     },
     error: function(err) {
